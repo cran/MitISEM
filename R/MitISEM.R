@@ -45,9 +45,11 @@
 #   CV         : [Hx1 vector] of coefficient of variation
 #   time       : [double] processed time
 #   summary    : [data.frame] information on construction of components, time and CV
+#   ISweights   : [N-vector] of IS weights for final approximation
 #
 # author : Nalan Basturk
-# date   : 20120912
+# date of creation   : 20120912
+# date of update     : 20170505 (change: ISweights are returned in addition to other outputs)
 
 MitISEM <- function(KERNEL,mu0,Sigma0=NULL,df0=1,mit0=NULL,control=list(),...){
    # Check inputs         
@@ -168,8 +170,8 @@ MitISEM <- function(KERNEL,mu0,Sigma0=NULL,df0=1,mit0=NULL,control=list(),...){
    AR       <- stopcr[2]
   
    # summary
-   nsummary <- c("H","METHOD","TIME","CV") 
-   summary  <- data.frame(H, initopt$method, initopt$time,  CV)
+   nsummary <- c("H","METHOD","TIME","CV","IS weights std.dev.") 
+   summary  <- data.frame(H, initopt$method, initopt$time,  CV, sqrt(var(w)))
    names(summary) = nsummary
    if (trace)  
      print(summary,row.names=FALSE);
@@ -188,7 +190,7 @@ MitISEM <- function(KERNEL,mu0,Sigma0=NULL,df0=1,mit0=NULL,control=list(),...){
                           CVtol,AR_last=100,ARtol)
    CV         <- c(CV,stopcr[1]) # initial coefficient of variation
    AR         <- c(AR,stopcr[2]) # initial acceptance rate
-   summary.n  <- data.frame(H, "IS-EM", as.numeric(proc.time()[3]-ptm), stopcr[1])
+   summary.n  <- data.frame(H, "IS-EM", as.numeric(proc.time()[3]-ptm), stopcr[1], sqrt(var(w))) 
    names(summary.n)=nsummary
    summary = rbind(summary,summary.n)
    if (trace)  print(summary,row.names=FALSE);
@@ -238,14 +240,14 @@ MitISEM <- function(KERNEL,mu0,Sigma0=NULL,df0=1,mit0=NULL,control=list(),...){
       if(H > 1)
         hstop  <- as.logical(stopcr[3]) 
        
-      summary.n <- data.frame(H, "IS-EM", as.numeric(proc.time()[3]-ptm),  CV[length(CV)])
+      summary.n <- data.frame(H, "IS-EM", as.numeric(proc.time()[3]-ptm),  CV[length(CV)], sqrt(var(w)))
       names(summary.n)=nsummary
       summary <- rbind(summary, summary.n)
       row.names(summary) <- NULL
       if (trace)  
 	    print(summary.n,row.names=FALSE);
     }
-    return(list(mit=mit.new,CV=CV,time=sum(summary$TIME),summary=summary))
+    return(list(mit=mit.new,CV=CV,time=sum(summary$TIME),summary=summary, ISweights = w))
 }
 # 'fn.optIS' updates mode and scale of the multivariate Student-t matrix from IS weights
 # inputs:

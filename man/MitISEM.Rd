@@ -29,6 +29,13 @@ MitISEM(KERNEL,mu0,Sigma0=NULL,df0=1,mit0=NULL,control=list(),...)
    \item{\dots}{other arguments to be passed to \code{KERNEL}
 }
 }
+\value{
+list containing:
+    \item{mit}{(list) optimal mixture density  with \eqn{H}{H} mixture components. See *Details*.}
+    \item{CV}{vector of length \eqn{H}{H} with coefficient of variation obtained from each addition of mixture components.}
+     \item{time}{(double) processed time.}
+     \item{summary}{(data.frame) summary information on construction of components, processed time and CV.}
+}
 \references{%
 Hoogerheide, L. and Opschoor, A. and Van Dijk, H. K. (2012)
  A Class of Adaptive Importance Sampling Weighted {EM} Algorithms for Efficient and Robust Posterior and Predictive Simulation. \emph{Journal of Econometrics}, in press.
@@ -46,6 +53,8 @@ Providing \code{mit0} argument makes arguments \code{mu0}, \code{Sigma0} and \co
       containing the scale matrices (in row) of the mixture components.}
     \item{\code{df}}{vector (of length \eqn{H}) degree of freedom parameters of the Student-t components. Each element should be above \eqn{0}}
   }
+
+Value \code{mit} has the same structure as \code{mit0}, where \eqn{H}{H} and parameters of the mixture density are optimized. 
 
   Optional argument \code{control} can provide several optimization parameters:
 \describe{%
@@ -112,5 +121,68 @@ MitISEM.plot.comps <- function(mit,x1,x2,log=FALSE){
 x1 <- seq(-2,6,0.05)
 x2 <- seq(-2,7,0.05)
 MitISEM.plot.comps(mit,x1,x2)
+
+\dontrun{
+  # Bayesian inference of the GARCH model using MitISEM and Importance Sampling
+  library(AdMit) # required for Importance Sampling
+  library(tseries) # required for loading the data
+  # load data : downloaded on 2013/01/18
+  prices <- as.vector(get.hist.quote("^GSPC",quote="AdjClose",start="1998-01-02",end="2002-12-26"))
+  data  <- 100 * (prices[-1] - prices[-length(prices)]) / (prices[-length(prices)]) 
+  prior.GARCH<-function(omega,beta,alpha,
+                        mu,log=TRUE){
+    c1 <- (omega>0 & omega <1 & beta>=0 & alpha>=0)
+    c2 <- (beta + alpha< 1)
+    c3 <- (mu>-1 & mu<1)
+    r1 <- c1 & c2 & c3
+    r2 <- rep.int(-Inf,length(omega))
+    r2[r1==TRUE] <- 0
+    if (!log)
+      r2 <- exp(r2)
+    cbind(r1,r2)
+  }
+  post.GARCH <- function(theta,data,h1,log=TRUE){
+    if (is.vector(theta))
+      theta <- matrix(theta, nrow = 1)
+    omega <- theta[,1]
+    beta <- theta[,2]
+    alpha <- theta[,3]
+    mu <- theta[,4]
+    N <- nrow(theta)
+    pos <- 2:length(data)
+    prior <- prior.GARCH(omega=omega,beta=beta,alpha=alpha,mu=mu)
+    d <- rep.int(-Inf,N)
+    for (i in 1:N){
+      if (prior[i,1] == TRUE){
+        h <- c(h1, omega[i] + alpha[i] * (data[pos-1]-mu[i])^2)
+        for (j in pos){
+          h[j] <- h[j] + beta[i] * h[j-1]
+        }
+        tmp <- dnorm(data[pos],mu[i],sqrt(h[pos]),log=TRUE)
+        d[i] <- sum(tmp) + prior[i,2]
+      }
+    }
+    if (!log) d <- exp(d)
+    as.numeric(d)
+  }
+  theta <- c(.08, .86, .02, .03) # initial parameters for MitISEM
+  names(theta)<-c("omega","beta","alpha","mu")
+  h1 <- var(data) # initial data variance
+  # MitISEM GARCH approximation
+  cat("MitISEM GARCH results",fill=TRUE)
+  cat('--------------------------',fill=TRUE)
+  set.seed(1111)
+  app.GARCH <- MitISEM(KERNEL=post.GARCH,
+                       mu0=theta, control=list(trace=TRUE),h1=h1,
+                       data=data)
+  print(app.GARCH$summary)
+  # Importance Sampling using MitISEM candidate
+  cat('Importance Sampling result from MitISEM candidate',fill=TRUE)
+  cat('---------------------------------------------------',fill=TRUE)
+  set.seed(1111)
+  IS.MitISEM.GARCH <- AdMitIS(N = 10e4,data=data,h1=h1,
+                              KERNEL=post.GARCH,mit=app.GARCH$mit)
+  print(IS.MitISEM.GARCH)
+}
 
 }

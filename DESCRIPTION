@@ -2,19 +2,20 @@ Package: MitISEM
 Type: Package
 Title: Mixture of Student t Distributions using Importance Sampling and
         Expectation Maximization
-Version: 1.0
-Date: 2012-09-15
+Version: 1.1
+Date: 2017-04-25
+Author: N. Basturk, L.F. Hoogerheide, A. Opschoor, H.K. van Dijk
+Maintainer: N. Basturk <n.basturk@maastrichtuniversity.nl>
 Description: Flexible multivariate function approximation using adapted
         Mixture of Student t Distributions. Mixture of t distribution
         is obtained using Importance Sampling weighted Expectation
         Maximization algorithm.
-Author: N. Basturk, L.F. Hoogerheide, A. Opschoor, H.K. van Dijk
-Maintainer: N. Basturk <basturk@ese.eur.nl>
 License: GPL (>= 3)
 LazyLoad: yes
-Depends: mvtnorm
+Imports: mvtnorm
 Suggests: AdMit
-URL: http://people.few.eur.nl/basturk/
-Packaged: 2012-09-18 14:30:10 UTC; nalan
+URL: https://www.maastrichtuniversity.nl/n.basturk
+NeedsCompilation: no
+Packaged: 2017-05-09 04:34:24 UTC; nalan
 Repository: CRAN
-Date/Publication: 2012-09-18 18:43:34
+Date/Publication: 2017-05-09 07:01:03 UTC

@@ -1,1 +1,4 @@
 export(rmvgt,dmvgt,isMit,MitISEM,SeqMitISEM,PredLik,MargLik)
+import(mvtnorm)
+importFrom("stats", "optim", "sd", "uniroot", "var")
+

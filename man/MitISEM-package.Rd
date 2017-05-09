@@ -9,17 +9,17 @@
 \tabular{ll}{
 Package: \tab MitISEM\cr
 Type: \tab Package\cr
-Version: \tab 1.0\cr
-Date: \tab 2012-07-31\cr
-License: \tab What license is it under?\cr
+Version: \tab 1.1\cr
+Date: \tab 2017-04-25\cr
+License: \tab GPL (>= 3)\cr
 }
-~~ An overview of how to use the package, including the most important functions ~~
+Flexible multivariate function approximation using adapted
+Mixture of Student t Distributions. Mixture of t distribution
+is obtained using Importance Sampling weighted Expectation
+Maximization algorithm.
 }
 \author{N. Basturk, L.F. Hoogerheide, A. Opschoor, H.K. van Dijk
 }
-\references{'A Class of Adaptive EM-based Importance Sampling Algorithms for Efficient and Robust Posterior and Predictive Simulation', 2012,, by Lennart Hoogerheide and Anne Opschoor and Herman K. van Dijk", Tinbergen Institute Discussion Paper, no. 11-004/4
+\references{L. Hoogerheide, A. Opschoor and H.K. Van Dijk (2012). "A class of adaptive importance sampling weighted EM algorithms for efficient and robust posterior and predictive simulation." Journal of Econometrics 171(2): 101-120.
 }
 \keyword{ package }
-\examples{
-  print("to be completed")
-}

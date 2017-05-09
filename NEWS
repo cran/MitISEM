@@ -1,0 +1,10 @@
+//
+// Changes and Bug Fixes
+//
+1.0 to 1.1
+  * MitISEM output list is extended to include IS weights
+  * fixed bug in Mvgt 
+  * fixed bug in fn.optimt (thanks to Philippe van Leeuwen)
+  * fnISEM extended to allow scalar 'theta'
+  * References updated
+
