@@ -7,4 +7,6 @@
   * fixed bug in fn.optimt (thanks to Philippe van Leeuwen)
   * fnISEM extended to allow scalar 'theta'
   * References updated
+1.1 to 1.2
+  * Journal of Statistical Software reference added
 

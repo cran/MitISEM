@@ -13,7 +13,7 @@ MitISEM(KERNEL,mu0,Sigma0=NULL,df0=1,mit0=NULL,control=list(),...)
 }
 \arguments{
   \item{KERNEL}{Function to be approximated. First argument should be the parameter matrix. 
-  A \code{log} argument should exist such that the fundtion returns log-density if \code{log=TRUE}
+  A \code{log} argument should exist such that the function returns log-density if \code{log=TRUE}
   }
   \item{mu0}{vector of length \eqn{k}, starting points for approximation
 }
@@ -37,9 +37,14 @@ list containing:
      \item{summary}{(data.frame) summary information on construction of components, processed time and CV.}
 }
 \references{%
-Hoogerheide, L. and Opschoor, A. and Van Dijk, H. K. (2012)
- A Class of Adaptive Importance Sampling Weighted {EM} Algorithms for Efficient and Robust Posterior and Predictive Simulation. \emph{Journal of Econometrics}, in press.
-\url{http://www.sciencedirect.com/science/article/pii/S0304407612001583}
+Basturk, N., Grassi, S., Hoogerheide, L., Opschoor, A. and Van Dijk, H. K. (2017) 
+The R Package MitISEM: Efficient and Robust Simulation Procedures for Bayesian Inference. 
+\emph{Journal of Statistical Software}, 79(1): 1-39. \doi{10.18637/jss.v079.i01}.
+
+Hoogerheide L., Opschoor, A. and Van Dijk, H. K. (2012) 
+A Class of Adaptive Importance Sampling Weighted {EM} Algorithms for Efficient and Robust Posterior and Predictive Simulation. 
+\emph{Journal of Econometrics}, 171(2): 101-120.
+\url{http://www.sciencedirect.com/science/article/pii/S0304407612001583}.
 }
 
 \seealso{\code{\link{isMit}}}
@@ -49,7 +54,7 @@ Providing \code{mit0} argument makes arguments \code{mu0}, \code{Sigma0} and \co
     \item{\code{p}}{vector (of length \eqn{H}) of mixture probabilities.}
     \item{\code{mu}}{matrix (of size \eqn{H \times k}{Hxk}) containing
       the vectors of modes (in row) of the mixture components.}
-    \item{\code{Sigma}}{matrix (of size \eqn{H \times k^2}{Hxk*k})
+    \item{\code{Sigma}}{matrix (of size \eqn{H \times k^2}{Hx(kxk)})
       containing the scale matrices (in row) of the mixture components.}
     \item{\code{df}}{vector (of length \eqn{H}) degree of freedom parameters of the Student-t components. Each element should be above \eqn{0}}
   }
@@ -69,8 +74,8 @@ Value \code{mit} has the same structure as \code{mit0}, where \eqn{H}{H} and par
       \item{\code{maxit.init}}{double, maximum number of iterations in the first student-t optimization. Default: \eqn{maxit.init=1e4}.}
 	\item{\code{reltol.init}}{double, relative tolerance in the first student-t optimization. Default: \eqn{reltol.init=1e-8}.}
 	\item{\code{maxit.EM}}{integer\eqn{>0}, maximum number of iterations for the EM algorithm. Default: \eqn{maxit.EM=1000}.}
-	\item{\code{tol.EM}}{double\eqn{>0}, tolerence for EM steps' convergence, Default: \eqn{tol.EM=0.001}.}
-	\item{\code{trace.EM}}{logical to print partial output during the IS-EM algrithm. Default: \eqn{trace.EM=FALSE}, no tracing information.}
+	\item{\code{tol.EM}}{double\eqn{>0}, tolerance for EM steps' convergence, Default: \eqn{tol.EM=0.001}.}
+	\item{\code{trace.EM}}{logical to print partial output during the IS-EM algorithm. Default: \eqn{trace.EM=FALSE}, no tracing information.}
 	\item{\code{optim.df}}{logical to optimize degrees of freedom of the Student-t components. Default: \eqn{optim.df=TRUE} df are optimized. Note: Keeping degrees of freedom in low values may be desired if the approximation is used in a rejection sampling. If \eqn{optim.df=FALSE}, degree of freedom of all student t components are fixed at \code{df0}.}
        \item{\code{inter.df}}{increasing vector of length \eqn{2} range of search values for df optimization, active if \eqn{optim.df=TRUE}. Default: \eqn{inter.df= (0.01,30)}.}
        \item{\code{tol.df}}{double \eqn{>0}, tolerance for degree of freedom optimization, active if \eqn{optim.df=TRUE}. Default: \eqn{tol.df=0.0001}}

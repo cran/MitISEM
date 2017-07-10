@@ -21,7 +21,7 @@ isMit(mit)
     \item{\code{p}}{vector (of length \eqn{H}) of mixture probabilities.}
     \item{\code{mu}}{matrix (of size \eqn{H \times d}{Hxd}) containing
       the vectors of modes (in row) of the mixture components.}
-    \item{\code{Sigma}}{matrix (of size \eqn{H \times d^2}{Hxd*d})
+    \item{\code{Sigma}}{matrix (of size \eqn{H \times d^2}{Hx(dxd)})
       containing the scale matrices (in row) of the mixture components.}
     \item{\code{df}}{vector (of length \eqn{H}) degree of freedom parameters for each Student-t component (double \eqn{>0}).}
   }

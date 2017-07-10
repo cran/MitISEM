@@ -51,10 +51,14 @@ SeqMitISEM(data,KERNEL,mu0,Sigma0=NULL,df0=1,control.MitISEM=list(),control.seq=
    }
 }
 \references{
-Hoogerheide, L. and Opschoor, A. and Van Dijk, H. K. (2012).
-A Class of Adaptive Importance Sampling Weighted {EM} Algorithms for Efficient and 
-Robust Posterior and Predictive Simulation. \emph{Journal of Econometrics}, 171(2): 101-120.
-\url{http://www.sciencedirect.com/science/article/pii/S0304407612001583}
+Basturk, N., Grassi, S., Hoogerheide, L., Opschoor, A. and Van Dijk, H. K. (2017) 
+The R Package MitISEM: Efficient and Robust Simulation Procedures for Bayesian Inference. 
+\emph{Journal of Statistical Software}, 79(1): 1-39. \doi{10.18637/jss.v079.i01}.
+
+Hoogerheide L., Opschoor, A. and Van Dijk, H. K. (2012) 
+A Class of Adaptive Importance Sampling Weighted {EM} Algorithms for Efficient and Robust Posterior and Predictive Simulation. 
+\emph{Journal of Econometrics}, 171(2): 101-120.
+\url{http://www.sciencedirect.com/science/article/pii/S0304407612001583}.
 }
 \examples{
 \dontrun{
